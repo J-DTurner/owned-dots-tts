@@ -1,0 +1,22 @@
+name: ghcr-make-public
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  make-public:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make GHCR package public
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method PATCH \
+            -H "Accept: application/vnd.github.package-deletes-preview+json" \
+            /users/j-dturner/packages/container/owned-dots-tts \
+            -f visibility=public
