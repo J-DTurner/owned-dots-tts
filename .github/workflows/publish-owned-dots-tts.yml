@@ -33,3 +33,7 @@ jobs:
           push: true
           tags: ghcr.io/j-dturner/owned-dots-tts:latest
           provenance: false
+      - name: Make GHCR package public
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method PATCH /user/packages/container/owned-dots-tts -f visibility=public
