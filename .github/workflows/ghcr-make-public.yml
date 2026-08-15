@@ -15,8 +15,26 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api \
-            --method PATCH \
+          set +e
+          for path in \
+            "users/J-DTurner/packages/container/owned-dots-tts" \
+            "users/j-dturner/packages/container/owned-dots-tts" \
+            "user/packages/container/owned-dots-tts" \
+            "user/packages?package_type=container"
+          do
+            echo "=== GET $path ==="
+            gh api -H "Accept: application/vnd.github.package-deletes-preview+json" "$path"
+            echo
+          done
+          echo "=== PATCH users/J-DTurner ==="
+          gh api --method PATCH \
+            -H "Accept: application/vnd.github.package-deletes-preview+json" \
+            /users/J-DTurner/packages/container/owned-dots-tts \
+            -f visibility=public
+          status=$?
+          echo "=== PATCH users/j-dturner ==="
+          gh api --method PATCH \
             -H "Accept: application/vnd.github.package-deletes-preview+json" \
             /users/j-dturner/packages/container/owned-dots-tts \
             -f visibility=public
+          exit $status
