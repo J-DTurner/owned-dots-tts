@@ -31,5 +31,5 @@ jobs:
           context: infra/tts
           file: infra/tts/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/owned-dots-tts:latest
+          tags: ghcr.io/j-dturner/owned-dots-tts:latest
           provenance: false
